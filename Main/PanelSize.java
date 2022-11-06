@@ -1,4 +1,4 @@
-package Main;
+package main;
 
 public interface PanelSize {
     final int originalTileSize = 16; // 16x16 tile
