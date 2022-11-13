@@ -2,6 +2,12 @@ package main;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 public class MainPanel implements PanelSize {
@@ -9,12 +15,18 @@ public class MainPanel implements PanelSize {
     protected JLabel gameTitleShadow = new JLabel("기묘한 박물관");
     public JLabel imbokhwan;
     protected ImagePanel titlePanel = new ImagePanel();
+    protected JFrame mainFrame = new JFrame();
+    protected boolean isNext = false;
+    protected File file = new File("audios/strange_museum_op.wav");
+    protected Clip clip = AudioSystem.getClip();
 
-    public MainPanel() {
-        JFrame mainFrame = new JFrame();
+    public MainPanel() throws LineUnavailableException, UnsupportedAudioFileException, IOException {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setResizable(false); // 창크기 변경X
         mainFrame.setTitle("기묘한 박물관");
+
+        clip.open(AudioSystem.getAudioInputStream(file));
+        clip.start();
 
         //버튼
         JButton startBtn = new JButton("시작");
@@ -24,7 +36,9 @@ public class MainPanel implements PanelSize {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Tutorial();
+                isNext = true;
                 mainFrame.setVisible(false);
+                clip.stop();
             }
         });
 
@@ -40,12 +54,6 @@ public class MainPanel implements PanelSize {
         gameTitleShadow.setForeground(Color.BLACK);
         gameTitleShadow.setBounds(104, 0, 700, 88);
         titlePanel.add(gameTitleShadow);
-
-        //캐릭터 이미지
-//        ImageIcon img = new ImageIcon("images/LBH.png");
-//        imbokhwan = new JLabel(img);
-//        imbokhwan.setBounds(tileSize, tileSize, 50, 50);
-//        titlePanel.add(imbokhwan);
 
         mainFrame.add(titlePanel);
 
@@ -77,13 +85,13 @@ public class MainPanel implements PanelSize {
 
         public void run() {
             while (true) {
+                int y1 = gameTitle.getY();
+                int y2 = gameTitleShadow.getY();
                 try {
-                    Thread.sleep(90);
+                    Thread.sleep(150);
                 } catch (InterruptedException e) {
                     return;
                 }
-                int y1 = gameTitle.getY();
-                int y2 = gameTitleShadow.getY();
                 if (y1 < 150) {
                     gameTitle.setLocation(gameTitle.getX(), y1 + 5);
                 }
@@ -91,7 +99,6 @@ public class MainPanel implements PanelSize {
                     gameTitleShadow.setLocation(gameTitleShadow.getX(), y2 + 5);
                 }
             }
-
         }
     }
 }
