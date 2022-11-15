@@ -12,24 +12,28 @@ public class MainPanel implements Tile {
     protected ImagePanel titlePanel = new ImagePanel();
     protected File file = new File("audios/strange_museum_op.wav");
     protected Clip clip = AudioSystem.getClip();
-    protected JButton startBtn = new JButton("시작");
+    protected JLabel startLabel = new JLabel("시작");
 
     public MainPanel() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         JFrame mainFrame = new JFrame();
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setResizable(false); // 창크기 변경X
         mainFrame.setTitle("기묘한 박물관");
+        Font font = new Font("Sam3KRFont", Font.BOLD, 85);
+        Font font1 = new Font("Sam3KRFont", Font.BOLD, 40);
 
         clip.open(AudioSystem.getAudioInputStream(file));
         clip.start();
 
-        //버튼
-        startBtn.setBounds(349, 380, 70, 30);
-        titlePanel.add(startBtn);
-        startBtn.setVisible(false);
-        startBtn.addActionListener(new ActionListener() {
+        //시작 라벨
+        startLabel.setLocation(330, 380);
+        startLabel.setSize(tileSize*4,tileSize*2);
+        startLabel.setForeground(Color.WHITE);
+        startLabel.setFont(font1);
+        startLabel.setVisible(false);
+        startLabel.addMouseListener(new MouseAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void mousePressed(MouseEvent e) {
                 try {
                     new Tutorial();
                 } catch (UnsupportedAudioFileException ex) {
@@ -42,11 +46,16 @@ public class MainPanel implements Tile {
                 mainFrame.setVisible(false);
                 clip.stop();
             }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                startLabel.setForeground(Color.BLACK);
+            }
         });
+        titlePanel.add(startLabel);
 
-        //타이틀
-        Font font = new Font("Sam3KRFont", Font.BOLD, 85);
 
+        // 타이틀
         gameTitle.setFont(font);
         gameTitle.setForeground(Color.WHITE);
         gameTitle.setBounds(100, 5, 700, 88);
@@ -104,7 +113,7 @@ public class MainPanel implements Tile {
                 if (y1 == 150 && y2 == 145)
                     th.interrupt();
                 if (th.isInterrupted())
-                    startBtn.setVisible(true);
+                    startLabel.setVisible(true);
             }
         }
     }

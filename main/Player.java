@@ -21,22 +21,6 @@ public class Player extends JLabel implements Tile, Moveable{
     private ImageIcon p_right, right1, right2;
     private ImageIcon p_left, left1, left2;
 
-    //충돌감지
-    public boolean collision = false;
-    int[][] detection = {
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,0,0,0,0,1,1,1,1,1,1},
-            {0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0},
-            {0,0,0,0,1,1,0,0,0,0,1,1,0,0,0,0},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-    };
-
     public Player() {
         getPlayerImage();
         defaultSetting();
