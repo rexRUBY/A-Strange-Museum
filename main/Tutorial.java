@@ -1,20 +1,25 @@
 package main;
 
 import java.awt.*;
+import javax.swing.*;
 import java.io.*;
 import javax.sound.sampled.*;
-import javax.swing.*;
 
-public class Tutorial implements Tile {
+public class Tutorial implements Tile{
+    static int cnt=0;
+    static String[][] dialog = {{"안녕 나는 임복환.", "인보과 비단길 팀이 만든 게임 케릭터다.", "우리 팀 화이팅이다!", "하이 헬로우"},
+            {"두번째 다이얼로그", "다이얼로그 다이얼로그", "제발!!!"}};
+
     protected JFrame tutorialFrame = new JFrame();
     protected MenuBar menuBar = new MenuBar();
-    protected DialogBox dialogBox = new DialogBox();
-    protected Player player = new Player();
+    protected static DialogBox dialogBox = new DialogBox();
+    public static Player player = new Player();
     protected File file = new File("audios/strange_museum_tutorial.wav");
     protected Clip clip = AudioSystem.getClip();
     protected MapPanel map = new MapPanel();
 
-    public Tutorial() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+    public Tutorial() throws LineUnavailableException, IOException, UnsupportedAudioFileException
+    {
         tutorialFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tutorialFrame.setResizable(false); // 창크기 변경X
         tutorialFrame.setJMenuBar(menuBar.mb);
@@ -28,24 +33,22 @@ public class Tutorial implements Tile {
 
         //맵
         tutorialFrame.setContentPane(map);
+        map.add(dialogBox);
+        dialogBox.setDialog(dialogBox, dialog[0], dialog[0].length);
+        dialogBox.thread.start();
 
-        //임복환(캐릭터 이름입니다!)
+        //임복환
         tutorialFrame.add(player);
         player.addEventListener(player, tutorialFrame);
 
-        //다이얼로그
-//        String[] dialog = {"안녕 나는 임복환." , "인보과 비단길 팀이 만든 게임 케릭터다." , "우리 팀 화이팅이다!"};
-//        map.add(dialogBox);
-//        dialogBox.setDialog(dialogBox, dialog);
-
-        //프레임 출력
+        //프레임
         tutorialFrame.pack(); // JFrame 내용물 크기에 맞게 윈도우 크기 조절
         tutorialFrame.setSize(screenWidth, screenHeight);
         tutorialFrame.setLocationRelativeTo(null); // 윈도우 창 화면 가운데 배치
         tutorialFrame.setVisible(true);
     }
 
-    public static void main(String[] args) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    public static void main(String[] args) throws LineUnavailableException, IOException, UnsupportedAudioFileException{
         new Tutorial();
     }
 }

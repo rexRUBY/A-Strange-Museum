@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -43,7 +44,7 @@ public class Player extends JLabel implements Tile, Moveable{
 
     public void defaultSetting() {
         x = 100;
-        y = 220;
+        y = 250;
 
         this.setIcon(p_down);
         this.setSize(tileSize, tileSize);
@@ -81,6 +82,31 @@ public class Player extends JLabel implements Tile, Moveable{
         this.right = right;
     }
 
+    //충돌 감지
+    public boolean collision = false;
+    public int[][] detection = {
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1},
+            {0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0},
+            {0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+    };
+
+    public void collisionCheck() {
+        System.out.println(y / tileSize + " " + x / tileSize);
+        if (detection[y / tileSize][x / tileSize] == 0)
+            collision = true;
+        else
+            collision = false;
+        System.out.println(collision+" "+x+" "+y);
+    }
+
     public void left() {
         left = true;
         new Thread(new Runnable() {
@@ -90,19 +116,22 @@ public class Player extends JLabel implements Tile, Moveable{
                 while (left) {
                     setIcon(p_left);
                     x -= speed;
-                    if(x>=-15 && x <= screenWidth-tileSize)
+                    if((x>=-15 && x <= screenWidth-tileSize && y <=254)||(x>=-15 && x <289 && y >254 && y<=300)||(x>=177 && x<289 && y>=300 && y<=396)||(x>=-15 && x<=screenWidth-tileSize && y>=396)
+                            ||(x>435 && x<=screenWidth-tileSize && y>=254 && y<=300)||(x>435 && x<=540 && y>=300 && y<=396))
                         setLocation(x, y);
                     else x+=speed;
                     initSleep(10);
                     setIcon(left1);
                     x -= speed;
-                    if(x>=-15 && x <= screenWidth-tileSize)
+                    if((x>=-15 && x <= screenWidth-tileSize && y <=254)||(x>=-15 && x <289 && y >254 && y<=300)||(x>=177 && x<289 && y>=300 && y<=396)||(x>=-15 && x<=screenWidth-tileSize && y>=396)
+                            ||(x>435 && x<=screenWidth-tileSize && y>=254 && y<=300)||(x>435 && x<=540 && y>=300 && y<=396))
                         setLocation(x,y);
                     else x+=speed;
                     initSleep(80);
                     setIcon(left2);
                     x -= speed;
-                    if(x>=-15 && x <= screenWidth-tileSize)
+                    if((x>=-15 && x <= screenWidth-tileSize && y <=254)||(x>=-15 && x <289 && y >254 && y<=300)||(x>=177 && x<289 && y>=300 && y<=396)||(x>=-15 && x<=screenWidth-tileSize && y>=396)
+                            ||(x>435 && x<=screenWidth-tileSize && y>=254 && y<=300)||(x>435 && x<=540 && y>=300 && y<=396))
                         setLocation(x, y);
                     else x+=speed;
                     setIcon(p_left);
@@ -124,19 +153,22 @@ public class Player extends JLabel implements Tile, Moveable{
                 while (right) {
                     setIcon(p_right);
                     x += speed;
-                    if(x>=-15 && x <= screenWidth-tileSize)
+                    if((x>=-15 && x <= screenWidth-tileSize && y <=254)||(x>=-15 && x <289 && y >254 && y<=300)||(x>=177 && x<289 && y>=300 && y<=396)||(x>=-15 && x<=screenWidth-tileSize && y>=396)
+                            ||(x>435 && x<=screenWidth-tileSize && y>=254 && y<=300)||(x>435 && x<=540 && y>=300 && y<=396))
                         setLocation(x, y);
                     else x-=speed;
                     initSleep(10);
                     setIcon(right1);
                     x += speed;
-                    if(x>=-15 && x <= screenWidth-tileSize)
+                    if((x>=-15 && x <= screenWidth-tileSize && y <=254)||(x>=-15 && x <289 && y >254 && y<=300)||(x>=177 && x<289 && y>=300 && y<=396)||(x>=-15 && x<=screenWidth-tileSize && y>=396)
+                            ||(x>435 && x<=screenWidth-tileSize && y>=254 && y<=300)||(x>435 && x<=540 && y>=300 && y<=396))
                         setLocation(x, y);
                     else x-=speed;
                     initSleep(80);
                     setIcon(right2);
                     x += speed;
-                    if(x>=-15 && x <= screenWidth-tileSize)
+                    if((x>=-15 && x <= screenWidth-tileSize && y <=254)||(x>=-15 && x <289 && y >254 && y<=300)||(x>=177 && x<289 && y>=300 && y<=396)||(x>=-15 && x<=screenWidth-tileSize && y>=396)
+                            ||(x>435 && x<=screenWidth-tileSize && y>=254 && y<=300)||(x>435 && x<=540 && y>=300 && y<=396))
                         setLocation(x, y);
                     else x-=speed;
                     setIcon(p_right);
@@ -156,21 +188,28 @@ public class Player extends JLabel implements Tile, Moveable{
             @Override
             public void run() {
                 while (up) {
+
                     setIcon(p_up);
                     y -= speed;
-                    if(y>=-10 && y <= 480)
+                    if((y>=158 && y<=300 && x<177)||(y>=396 && y<=480 && x<177)||(y>=158 && y<=480 && x<=290 && x>=177)||(y>=158 && y<=480 && x>=435 && x<=546)
+                            ||(y>=158 && y<=254 && x>=289 && x<435)||(y>396 && y<=480 && x>=289 && x<435)
+                            ||(y>396 && y<=480 && x>=540 && x<=screenWidth-tileSize)||(y>=158 && y<=300 && x>=540 && x<=screenWidth-tileSize))
                         setLocation(x, y);
                     else y+=speed;
                     initSleep(10);
                     setIcon(up1);
                     y -= speed;
-                    if(y>=-10 && y <= 480)
+                    if((y>=158 && y<=300 && x<177)||(y>=396 && y<=480 && x<177)||(y>=158 && y<=480 && x<=290 && x>=177)||(y>=158 && y<=480 && x>=435 && x<=546)
+                            ||(y>=158 && y<=254 && x>=289 && x<435)||(y>396 && y<=480 && x>=289 && x<435)
+                            ||(y>396 && y<=480 && x>=540 && x<=screenWidth-tileSize)||(y>=158 && y<=300 && x>=540 && x<=screenWidth-tileSize))
                         setLocation(x, y);
                     else y+=speed;
                     initSleep(80);
                     setIcon(up2);
                     y -= speed;
-                    if(y>=-10 && y <= 480)
+                    if((y>=158 && y<=300 && x<177)||(y>=396 && y<=480 && x<177)||(y>=158 && y<=480 && x<=290 && x>=177)||(y>=158 && y<=480 && x>=435 && x<=546)
+                            ||(y>=158 && y<=254 && x>=289 && x<435)||(y>396 && y<=480 && x>=289 && x<435)
+                            ||(y>396 && y<=480 && x>=540 && x<=screenWidth-tileSize)||(y>=158 && y<=300 && x>=540 && x<=screenWidth-tileSize))
                         setLocation(x, y);
                     else y += speed;
                     initSleep(80);
@@ -192,21 +231,26 @@ public class Player extends JLabel implements Tile, Moveable{
             @Override
             public void run() {
                 while (down) {
-                    setIcon(p_down);
                     y += speed;
-                    if(y>=-10 && y <= 480)
+                    if((y>=158 && y<=300 && x<177)||(y>=396 && y<=480 && x<177)||(y>=158 && y<=480 && x<=290 && x>=177)||(y>=158 && y<=480 && x>=435 && x<=546)
+                            ||(y>=158 && y<=254 && x>=289 && x<435)||(y>396 && y<=480 && x>=289 && x<435)
+                            ||(y>396 && y<=480 && x>=540 && x<=screenWidth-tileSize)||(y>=158 && y<=300 && x>=540 && x<=screenWidth-tileSize))
                         setLocation(x, y);
                     else y-=speed;
                     initSleep(10);
                     setIcon(down1);
                     y += speed;
-                    if(y>=-10 && y <= 480)
+                    if((y>=158 && y<=300 && x<177)||(y>=396 && y<=480 && x<177)||(y>=158 && y<=480 && x<=290 && x>=177)||(y>=158 && y<=480 && x>=435 && x<=546)
+                            ||(y>=158 && y<=254 && x>=289 && x<435)||(y>396 && y<=480 && x>=289 && x<435)
+                            ||(y>396 && y<=480 && x>=540 && x<=screenWidth-tileSize)||(y>=158 && y<=300 && x>=540 && x<=screenWidth-tileSize))
                         setLocation(x, y);
                     else y-=speed;
                     initSleep(80);
                     setIcon(down2);
                     y += speed;
-                    if(y>=-10 && y <= 480)
+                    if((y>=158 && y<=300 && x<177)||(y>=396 && y<=480 && x<177)||(y>=158 && y<=480 && x<=290 && x>=177)||(y>=158 && y<=480 && x>=435 && x<=546)
+                            ||(y>=158 && y<=254 && x>=289 && x<435)||(y>396 && y<=480 && x>=289 && x<435)
+                            ||(y>396 && y<=480 && x>=540 && x<=screenWidth-tileSize)||(y>=158 && y<=300 && x>=540 && x<=screenWidth-tileSize))
                         setLocation(x, y);
                     else y-=speed;
                     initSleep(80);

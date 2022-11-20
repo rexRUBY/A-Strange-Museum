@@ -5,7 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class MenuBar extends JFrame {
-    JMenuBar mb = new JMenuBar();
+    public JMenuBar mb = new JMenuBar();
 
     public MenuBar() {
         JMenu option = new JMenu("옵션"); // 소리, 단축키 설정

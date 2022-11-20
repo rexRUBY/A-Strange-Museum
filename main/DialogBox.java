@@ -2,17 +2,21 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Iterator;
+import java.util.Vector;
 
-public class DialogBox extends JPanel implements Tile, Runnable {
-    String str[] = new String[5];
+import static main.Tutorial.dialog;
+
+public class DialogBox extends JLabel implements Tile, Runnable {
+    public static Vector<String> dialogVec = new Vector<>();
+    public static Iterator<String> it = dialogVec.iterator();
     Thread thread = new Thread(this);
-    JPanel panel;
+    DialogBox dialogBox;
 
     public DialogBox() {
         this.setLayout(null);
         this.setSize(screenWidth, 240);
         this.setLocation(0, 336);
-        //this.setVisible(true);
     }
 
     public void paintComponent(Graphics g) {
@@ -30,39 +34,42 @@ public class DialogBox extends JPanel implements Tile, Runnable {
         g2.drawRoundRect(tileSize * 2 + 5, tileSize - 25, width - 10, height - 10, 25, 25);
     }
 
-    public void setDialog(JPanel panel, String[] dialogues) {
-        for (int i = 0; i < dialogues.length; i++) {
-            str[i] = dialogues[i];
+    public void setDialog(DialogBox panel, String[] dialog, int size) {
+        for (int i = 0; i < size; i++) {
+            dialogVec.add(dialog[i]);
         }
-        this.panel = panel;
-        thread.start();
+        this.dialogBox = panel;
     }
 
     public void run() {
-        //char[] strArray = str.toCharArray();
-        //JLabel label[] = new JLabel[];
         Font font = new Font("Sam3KRFont", Font.PLAIN, 23);
         try {
-            for (int i = 0; i < str.length; i++) {
-                int size = 23;
-                JLabel label[] = new JLabel[str[i].length()];
-                char[] strArray = str[i].toCharArray();
-                for (int j = 0; j < strArray.length; j++) {
-                    label[j] = new JLabel(String.valueOf(strArray[j]));
-                    label[j].setFont(font);
-                    label[j].setForeground(Color.WHITE);
-                    label[j].setSize(40, 40);
-                    label[j].setLocation(tileSize * 2 + 10 + size * j, tileSize + size * i - 20);
-                    panel.add(label[j]);
-                    repaint();
-                    initSleep(20);
+            for (int k = 0; k < dialog.length; k++) {
+                dialogVec.clear();
+                setDialog(dialogBox, dialog[k], dialog[k].length);
+                for (int i = 0; i < dialogVec.size(); i++) {
+                    int size = 23;
+                    JLabel label[] = new JLabel[dialogVec.elementAt(i).length()];
+                    char[] strArray = dialogVec.elementAt(i).toCharArray();
+                    for (int j = 0; j < dialogVec.elementAt(i).length(); j++) {
+                        label[j] = new JLabel(String.valueOf(strArray[j]));
+                        label[j].setFont(font);
+                        label[j].setForeground(Color.WHITE);
+                        label[j].setSize(40, 40);
+                        label[j].setLocation(tileSize * 2 + 10 + size * j, tileSize + size * i - 25);
+                        dialogBox.add(label[j]);
+                        repaint();
+                        initSleep(25);
+                    }
+                    initSleep(120);
+                    }
+                removeAll();
                 }
-                initSleep(120);
-            }
+                initSleep(2000);
+            } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        catch (NullPointerException e){  }
     }
-
 
     public void initSleep(int sleepNum) {
         try {
@@ -71,6 +78,4 @@ public class DialogBox extends JPanel implements Tile, Runnable {
             e.printStackTrace();
         }
     }
-
-
 }
