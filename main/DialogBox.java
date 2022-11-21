@@ -1,19 +1,23 @@
 package main;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Iterator;
-import java.util.Vector;
+import java.io.*;
+import java.util.*;
 
-import static main.Tutorial.dialog;
+import static main.Tutorial.*;
 
 public class DialogBox extends JLabel implements Tile, Runnable {
+    protected File file = new File("audios/small_explosion.wav");
+    protected Clip clip = AudioSystem.getClip();
     public static Vector<String> dialogVec = new Vector<>();
     public static Iterator<String> it = dialogVec.iterator();
+
     Thread thread = new Thread(this);
     DialogBox dialogBox;
 
-    public DialogBox() {
+    public DialogBox() throws LineUnavailableException, UnsupportedAudioFileException, IOException {
         this.setLayout(null);
         this.setSize(screenWidth, 240);
         this.setLocation(0, 336);
@@ -59,13 +63,26 @@ public class DialogBox extends JLabel implements Tile, Runnable {
                         label[j].setLocation(tileSize * 2 + 10 + size * j, tileSize + size * i - 25);
                         dialogBox.add(label[j]);
                         repaint();
-                        initSleep(25);
+                        if(dialogVec.elementAt(i)=="쾅") {
+                            clip.open(AudioSystem.getAudioInputStream(file));
+                            clip.start();
+                            initSleep(800);
+                            EmptyPanel emptyPanel = new EmptyPanel();
+                            tutorialFrame.add(emptyPanel);
+                            emptyPanel.repaint();
+                            player.repaint();
+                        }
+//                        dialogBox.add(label[j]);
+//                        repaint();
+                        initSleep(30);
                     }
-                    initSleep(120);
+                    initSleep(180);
                     }
                 removeAll();
-                }
                 initSleep(2000);
+                }
+            initSleep(2000);
+            dialogBox.setVisible(false);
             } catch (Exception e) {
             throw new RuntimeException(e);
         }

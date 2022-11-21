@@ -6,18 +6,34 @@ import java.io.*;
 import javax.sound.sampled.*;
 
 public class Tutorial implements Tile{
-    static int cnt=0;
-    static String[][] dialog = {{"안녕 나는 임복환.", "인보과 비단길 팀이 만든 게임 케릭터다.", "우리 팀 화이팅이다!", "하이 헬로우"},
-            {"두번째 다이얼로그", "다이얼로그 다이얼로그", "제발!!!"}};
+    static String[][] dialog = {{"아니..", "분명 이곳에서 모이기로 했는데...", "왜 아무도 없지..?"},
+            {"내가 역사 박물관에 온 이유는 단순하다. ", "팀프로젝트 자료조사 차 방문했지만", "어쩐지 아무도 없어 의아하던 찰나..!"},
+            {"덜컹..."},
+            {"쾅"},
+            {"어 저기서 빛나는건 뭐지?"},
+            {"가까이 가보자!!!"}
+    };
 
-    protected JFrame tutorialFrame = new JFrame();
+    public static JFrame tutorialFrame = new JFrame();
     protected MenuBar menuBar = new MenuBar();
-    protected static DialogBox dialogBox = new DialogBox();
+    protected static DialogBox dialogBox;
+
+    static {
+        try {
+            dialogBox = new DialogBox();
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static Player player = new Player();
     protected File file = new File("audios/strange_museum_tutorial.wav");
     protected Clip clip = AudioSystem.getClip();
     protected MapPanel map = new MapPanel();
-
     public Tutorial() throws LineUnavailableException, IOException, UnsupportedAudioFileException
     {
         tutorialFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,7 +54,7 @@ public class Tutorial implements Tile{
         dialogBox.thread.start();
 
         //임복환
-        tutorialFrame.add(player);
+        map.add(player);
         player.addEventListener(player, tutorialFrame);
 
         //프레임
@@ -59,10 +75,28 @@ class MapPanel extends JPanel implements Tile {
 
     public MapPanel() {
         setLayout(null);
+        setBounds(0,0,screenWidth,screenHeight);
+        setVisible(true);
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(mapImg,0, 0, screenWidth, screenHeight,this);
+    }
+}
+
+class EmptyPanel extends JPanel implements Tile {
+    public ImageIcon museumMap_empty = new ImageIcon("images/strange_museum_empty.jpg");
+    public Image emptyImg = museumMap_empty.getImage();
+
+    public EmptyPanel() {
+        setLayout(null);
+        setBounds(0,0,screenWidth,screenHeight);
+        setVisible(true);
+    }
+
+    public void paint(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(emptyImg, 0, 0, screenWidth, screenHeight, this);
     }
 }
