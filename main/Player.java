@@ -1,14 +1,19 @@
 package main;
 
-import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+import java.io.IOException;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
-public class Player extends JLabel implements Tile, Moveable{
+import stageOne.Intro;
+import stageOne.StageOne_Main;
 
-    private int x,y; //좌표
+import static main.Tutorial.tutorialFrame;
+
+public class Player extends JLabel implements Tile, Moveable {
+    private int x, y; //좌표
     private int speed = 3; //플레이어 속도 상태
 
     //움직임 상태
@@ -22,7 +27,9 @@ public class Player extends JLabel implements Tile, Moveable{
     private ImageIcon p_right, right1, right2;
     private ImageIcon p_left, left1, left2;
 
-    public Player() {
+
+    //Constructor
+    public Player() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         getPlayerImage();
         defaultSetting();
     }
@@ -42,14 +49,33 @@ public class Player extends JLabel implements Tile, Moveable{
         left2 = new ImageIcon("images/left_r.png");
     }
 
+    public void gameStart() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        int x = getX();
+        int y = getY();
+        boolean one = false;
+        boolean two = false;
+        boolean three = false;
+
+        if ((x > 510 && x < 550) && (y > 157 && y < 176)) {
+            one = true;
+            if (one == true) {
+                one =false;
+                Tutorial.clip.stop();
+                Intro.getInstance();
+                tutorialFrame.setVisible(false);
+            }
+        }
+    }
+
     public void defaultSetting() {
-        x = 100;
-        y = 250;
+        x = 80;
+        y = tileSize * 3 + 35;
 
         this.setIcon(p_down);
         this.setSize(tileSize, tileSize);
         this.setLocation(x, y);
     }
+
     public boolean isUp() {
         return up;
     }
@@ -82,31 +108,6 @@ public class Player extends JLabel implements Tile, Moveable{
         this.right = right;
     }
 
-    //충돌 감지
-    public boolean collision = false;
-    public int[][] detection = {
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1},
-            {0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0},
-            {0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
-    };
-
-    public void collisionCheck() {
-        System.out.println(y / tileSize + " " + x / tileSize);
-        if (detection[y / tileSize][x / tileSize] == 0)
-            collision = true;
-        else
-            collision = false;
-        System.out.println(collision+" "+x+" "+y);
-    }
-
     public void left() {
         left = true;
         new Thread(new Runnable() {
@@ -114,26 +115,35 @@ public class Player extends JLabel implements Tile, Moveable{
             @Override
             public void run() {
                 while (left) {
+                    try {
+                        gameStart();
+                    } catch (UnsupportedAudioFileException e) {
+                        throw new RuntimeException(e);
+                    } catch (LineUnavailableException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     setIcon(p_left);
                     x -= speed;
-                    if((x>=-15 && x <= screenWidth-tileSize && y <=254)||(x>=-15 && x <289 && y >254 && y<=300)||(x>=177 && x<289 && y>=300 && y<=396)||(x>=-15 && x<=screenWidth-tileSize && y>=396)
-                            ||(x>435 && x<=screenWidth-tileSize && y>=254 && y<=300)||(x>435 && x<=540 && y>=300 && y<=396))
+                    if ((x >= -15 && x <= screenWidth - tileSize && y <= 254) || (x >= -15 && x < 289 && y > 254 && y <= 300) || (x >= 177 && x < 289 && y >= 300 && y <= 396) || (x >= -15 && x <= screenWidth - tileSize && y >= 396)
+                            || (x > 435 && x <= screenWidth - tileSize && y >= 254 && y <= 300) || (x > 435 && x <= 540 && y >= 300 && y <= 396))
                         setLocation(x, y);
-                    else x+=speed;
+                    else x += speed;
                     initSleep(10);
                     setIcon(left1);
                     x -= speed;
-                    if((x>=-15 && x <= screenWidth-tileSize && y <=254)||(x>=-15 && x <289 && y >254 && y<=300)||(x>=177 && x<289 && y>=300 && y<=396)||(x>=-15 && x<=screenWidth-tileSize && y>=396)
-                            ||(x>435 && x<=screenWidth-tileSize && y>=254 && y<=300)||(x>435 && x<=540 && y>=300 && y<=396))
-                        setLocation(x,y);
-                    else x+=speed;
+                    if ((x >= -15 && x <= screenWidth - tileSize && y <= 254) || (x >= -15 && x < 289 && y > 254 && y <= 300) || (x >= 177 && x < 289 && y >= 300 && y <= 396) || (x >= -15 && x <= screenWidth - tileSize && y >= 396)
+                            || (x > 435 && x <= screenWidth - tileSize && y >= 254 && y <= 300) || (x > 435 && x <= 540 && y >= 300 && y <= 396))
+                        setLocation(x, y);
+                    else x += speed;
                     initSleep(80);
                     setIcon(left2);
                     x -= speed;
-                    if((x>=-15 && x <= screenWidth-tileSize && y <=254)||(x>=-15 && x <289 && y >254 && y<=300)||(x>=177 && x<289 && y>=300 && y<=396)||(x>=-15 && x<=screenWidth-tileSize && y>=396)
-                            ||(x>435 && x<=screenWidth-tileSize && y>=254 && y<=300)||(x>435 && x<=540 && y>=300 && y<=396))
+                    if ((x >= -15 && x <= screenWidth - tileSize && y <= 254) || (x >= -15 && x < 289 && y > 254 && y <= 300) || (x >= 177 && x < 289 && y >= 300 && y <= 396) || (x >= -15 && x <= screenWidth - tileSize && y >= 396)
+                            || (x > 435 && x <= screenWidth - tileSize && y >= 254 && y <= 300) || (x > 435 && x <= 540 && y >= 300 && y <= 396))
                         setLocation(x, y);
-                    else x+=speed;
+                    else x += speed;
                     setIcon(p_left);
                     try {
                         Thread.sleep(50);
@@ -144,6 +154,7 @@ public class Player extends JLabel implements Tile, Moveable{
             }
         }).start();
     }
+
     public void right() {
         right = true;
         new Thread(new Runnable() {
@@ -151,26 +162,35 @@ public class Player extends JLabel implements Tile, Moveable{
             @Override
             public void run() {
                 while (right) {
+                    try {
+                        gameStart();
+                    } catch (UnsupportedAudioFileException e) {
+                        throw new RuntimeException(e);
+                    } catch (LineUnavailableException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     setIcon(p_right);
                     x += speed;
-                    if((x>=-15 && x <= screenWidth-tileSize && y <=254)||(x>=-15 && x <289 && y >254 && y<=300)||(x>=177 && x<289 && y>=300 && y<=396)||(x>=-15 && x<=screenWidth-tileSize && y>=396)
-                            ||(x>435 && x<=screenWidth-tileSize && y>=254 && y<=300)||(x>435 && x<=540 && y>=300 && y<=396))
+                    if ((x >= -15 && x <= screenWidth - tileSize && y <= 254) || (x >= -15 && x < 289 && y > 254 && y <= 300) || (x >= 177 && x < 289 && y >= 300 && y <= 396) || (x >= -15 && x <= screenWidth - tileSize && y >= 396)
+                            || (x > 435 && x <= screenWidth - tileSize && y >= 254 && y <= 300) || (x > 435 && x <= 540 && y >= 300 && y <= 396))
                         setLocation(x, y);
-                    else x-=speed;
+                    else x -= speed;
                     initSleep(10);
                     setIcon(right1);
                     x += speed;
-                    if((x>=-15 && x <= screenWidth-tileSize && y <=254)||(x>=-15 && x <289 && y >254 && y<=300)||(x>=177 && x<289 && y>=300 && y<=396)||(x>=-15 && x<=screenWidth-tileSize && y>=396)
-                            ||(x>435 && x<=screenWidth-tileSize && y>=254 && y<=300)||(x>435 && x<=540 && y>=300 && y<=396))
+                    if ((x >= -15 && x <= screenWidth - tileSize && y <= 254) || (x >= -15 && x < 289 && y > 254 && y <= 300) || (x >= 177 && x < 289 && y >= 300 && y <= 396) || (x >= -15 && x <= screenWidth - tileSize && y >= 396)
+                            || (x > 435 && x <= screenWidth - tileSize && y >= 254 && y <= 300) || (x > 435 && x <= 540 && y >= 300 && y <= 396))
                         setLocation(x, y);
-                    else x-=speed;
+                    else x -= speed;
                     initSleep(80);
                     setIcon(right2);
                     x += speed;
-                    if((x>=-15 && x <= screenWidth-tileSize && y <=254)||(x>=-15 && x <289 && y >254 && y<=300)||(x>=177 && x<289 && y>=300 && y<=396)||(x>=-15 && x<=screenWidth-tileSize && y>=396)
-                            ||(x>435 && x<=screenWidth-tileSize && y>=254 && y<=300)||(x>435 && x<=540 && y>=300 && y<=396))
+                    if ((x >= -15 && x <= screenWidth - tileSize && y <= 254) || (x >= -15 && x < 289 && y > 254 && y <= 300) || (x >= 177 && x < 289 && y >= 300 && y <= 396) || (x >= -15 && x <= screenWidth - tileSize && y >= 396)
+                            || (x > 435 && x <= screenWidth - tileSize && y >= 254 && y <= 300) || (x > 435 && x <= 540 && y >= 300 && y <= 396))
                         setLocation(x, y);
-                    else x-=speed;
+                    else x -= speed;
                     setIcon(p_right);
                     try {
                         Thread.sleep(50);
@@ -181,6 +201,7 @@ public class Player extends JLabel implements Tile, Moveable{
             }
         }).start();
     }
+
     public void up() {
         up = true;
         new Thread(new Runnable() {
@@ -188,28 +209,36 @@ public class Player extends JLabel implements Tile, Moveable{
             @Override
             public void run() {
                 while (up) {
-
+                    try {
+                        gameStart();
+                    } catch (UnsupportedAudioFileException e) {
+                        throw new RuntimeException(e);
+                    } catch (LineUnavailableException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     setIcon(p_up);
                     y -= speed;
-                    if((y>=158 && y<=300 && x<177)||(y>=396 && y<=480 && x<177)||(y>=158 && y<=480 && x<=290 && x>=177)||(y>=158 && y<=480 && x>=435 && x<=546)
-                            ||(y>=158 && y<=254 && x>=289 && x<435)||(y>396 && y<=480 && x>=289 && x<435)
-                            ||(y>396 && y<=480 && x>=540 && x<=screenWidth-tileSize)||(y>=158 && y<=300 && x>=540 && x<=screenWidth-tileSize))
+                    if ((y >= 158 && y <= 300 && x < 177) || (y >= 396 && y <= 480 && x < 177) || (y >= 158 && y <= 480 && x <= 290 && x >= 177) || (y >= 158 && y <= 480 && x >= 435 && x <= 546)
+                            || (y >= 158 && y <= 254 && x >= 289 && x < 435) || (y > 396 && y <= 480 && x >= 289 && x < 435)
+                            || (y > 396 && y <= 480 && x >= 540 && x <= screenWidth - tileSize) || (y >= 158 && y <= 300 && x >= 540 && x <= screenWidth - tileSize))
                         setLocation(x, y);
-                    else y+=speed;
+                    else y += speed;
                     initSleep(10);
                     setIcon(up1);
                     y -= speed;
-                    if((y>=158 && y<=300 && x<177)||(y>=396 && y<=480 && x<177)||(y>=158 && y<=480 && x<=290 && x>=177)||(y>=158 && y<=480 && x>=435 && x<=546)
-                            ||(y>=158 && y<=254 && x>=289 && x<435)||(y>396 && y<=480 && x>=289 && x<435)
-                            ||(y>396 && y<=480 && x>=540 && x<=screenWidth-tileSize)||(y>=158 && y<=300 && x>=540 && x<=screenWidth-tileSize))
+                    if ((y >= 158 && y <= 300 && x < 177) || (y >= 396 && y <= 480 && x < 177) || (y >= 158 && y <= 480 && x <= 290 && x >= 177) || (y >= 158 && y <= 480 && x >= 435 && x <= 546)
+                            || (y >= 158 && y <= 254 && x >= 289 && x < 435) || (y > 396 && y <= 480 && x >= 289 && x < 435)
+                            || (y > 396 && y <= 480 && x >= 540 && x <= screenWidth - tileSize) || (y >= 158 && y <= 300 && x >= 540 && x <= screenWidth - tileSize))
                         setLocation(x, y);
-                    else y+=speed;
+                    else y += speed;
                     initSleep(80);
                     setIcon(up2);
                     y -= speed;
-                    if((y>=158 && y<=300 && x<177)||(y>=396 && y<=480 && x<177)||(y>=158 && y<=480 && x<=290 && x>=177)||(y>=158 && y<=480 && x>=435 && x<=546)
-                            ||(y>=158 && y<=254 && x>=289 && x<435)||(y>396 && y<=480 && x>=289 && x<435)
-                            ||(y>396 && y<=480 && x>=540 && x<=screenWidth-tileSize)||(y>=158 && y<=300 && x>=540 && x<=screenWidth-tileSize))
+                    if ((y >= 158 && y <= 300 && x < 177) || (y >= 396 && y <= 480 && x < 177) || (y >= 158 && y <= 480 && x <= 290 && x >= 177) || (y >= 158 && y <= 480 && x >= 435 && x <= 546)
+                            || (y >= 158 && y <= 254 && x >= 289 && x < 435) || (y > 396 && y <= 480 && x >= 289 && x < 435)
+                            || (y > 396 && y <= 480 && x >= 540 && x <= screenWidth - tileSize) || (y >= 158 && y <= 300 && x >= 540 && x <= screenWidth - tileSize))
                         setLocation(x, y);
                     else y += speed;
                     initSleep(80);
@@ -231,28 +260,37 @@ public class Player extends JLabel implements Tile, Moveable{
             @Override
             public void run() {
                 while (down) {
+                    try {
+                        gameStart();
+                    } catch (UnsupportedAudioFileException e) {
+                        throw new RuntimeException(e);
+                    } catch (LineUnavailableException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     y += speed;
-                    if((y>=158 && y<=300 && x<177)||(y>=396 && y<=480 && x<177)||(y>=158 && y<=480 && x<=290 && x>=177)||(y>=158 && y<=480 && x>=435 && x<=546)
-                            ||(y>=158 && y<=254 && x>=289 && x<435)||(y>396 && y<=480 && x>=289 && x<435)
-                            ||(y>396 && y<=480 && x>=540 && x<=screenWidth-tileSize)||(y>=158 && y<=300 && x>=540 && x<=screenWidth-tileSize))
+                    if ((y >= 158 && y <= 300 && x < 177) || (y >= 396 && y <= 480 && x < 177) || (y >= 158 && y <= 480 && x <= 290 && x >= 177) || (y >= 158 && y <= 480 && x >= 435 && x <= 546)
+                            || (y >= 158 && y <= 254 && x >= 289 && x < 435) || (y > 396 && y <= 480 && x >= 289 && x < 435)
+                            || (y > 396 && y <= 480 && x >= 540 && x <= screenWidth - tileSize) || (y >= 158 && y <= 300 && x >= 540 && x <= screenWidth - tileSize))
                         setLocation(x, y);
-                    else y-=speed;
+                    else y -= speed;
                     initSleep(10);
                     setIcon(down1);
                     y += speed;
-                    if((y>=158 && y<=300 && x<177)||(y>=396 && y<=480 && x<177)||(y>=158 && y<=480 && x<=290 && x>=177)||(y>=158 && y<=480 && x>=435 && x<=546)
-                            ||(y>=158 && y<=254 && x>=289 && x<435)||(y>396 && y<=480 && x>=289 && x<435)
-                            ||(y>396 && y<=480 && x>=540 && x<=screenWidth-tileSize)||(y>=158 && y<=300 && x>=540 && x<=screenWidth-tileSize))
+                    if ((y >= 158 && y <= 300 && x < 177) || (y >= 396 && y <= 480 && x < 177) || (y >= 158 && y <= 480 && x <= 290 && x >= 177) || (y >= 158 && y <= 480 && x >= 435 && x <= 546)
+                            || (y >= 158 && y <= 254 && x >= 289 && x < 435) || (y > 396 && y <= 480 && x >= 289 && x < 435)
+                            || (y > 396 && y <= 480 && x >= 540 && x <= screenWidth - tileSize) || (y >= 158 && y <= 300 && x >= 540 && x <= screenWidth - tileSize))
                         setLocation(x, y);
-                    else y-=speed;
+                    else y -= speed;
                     initSleep(80);
                     setIcon(down2);
                     y += speed;
-                    if((y>=158 && y<=300 && x<177)||(y>=396 && y<=480 && x<177)||(y>=158 && y<=480 && x<=290 && x>=177)||(y>=158 && y<=480 && x>=435 && x<=546)
-                            ||(y>=158 && y<=254 && x>=289 && x<435)||(y>396 && y<=480 && x>=289 && x<435)
-                            ||(y>396 && y<=480 && x>=540 && x<=screenWidth-tileSize)||(y>=158 && y<=300 && x>=540 && x<=screenWidth-tileSize))
+                    if ((y >= 158 && y <= 300 && x < 177) || (y >= 396 && y <= 480 && x < 177) || (y >= 158 && y <= 480 && x <= 290 && x >= 177) || (y >= 158 && y <= 480 && x >= 435 && x <= 546)
+                            || (y >= 158 && y <= 254 && x >= 289 && x < 435) || (y > 396 && y <= 480 && x >= 289 && x < 435)
+                            || (y > 396 && y <= 480 && x >= 540 && x <= screenWidth - tileSize) || (y >= 158 && y <= 300 && x >= 540 && x <= screenWidth - tileSize))
                         setLocation(x, y);
-                    else y-=speed;
+                    else y -= speed;
                     initSleep(80);
                     setIcon(p_down);
                     try {
@@ -279,22 +317,22 @@ public class Player extends JLabel implements Tile, Moveable{
             public void keyPressed(KeyEvent e) {
 
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    if(player.isLeft() == false) {
+                    if (player.isLeft() == false) {
                         player.left();//left() 한번 호출하면 isLeft --> true
                     }
 
                 } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    if(player.isRight()==false) {
+                    if (player.isRight() == false) {
                         player.right();
                     }
 
                 } else if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    if(player.isUp() == false) {
+                    if (player.isUp() == false) {
                         player.up();
                     }
 
                 } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    if(player.isDown() == false) {
+                    if (player.isDown() == false) {
                         player.down();
                     }
                 }
@@ -310,14 +348,12 @@ public class Player extends JLabel implements Tile, Moveable{
                     // 오른쪽 화살표 누르고 있는 순간은 계속 오른쪽으로 가고 있는 상태 중
                     // 뗐을 때 while문 도는 걸 멈추어야 함!
                     player.setRight(false);
-                } else if(e.getKeyCode() == KeyEvent.VK_UP) {
+                } else if (e.getKeyCode() == KeyEvent.VK_UP) {
                     player.setUp(false);
-                } else if(e.getKeyCode() == KeyEvent.VK_DOWN) {
+                } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                     player.setDown(false);
                 }
             }
-
         });
-
     }
 }

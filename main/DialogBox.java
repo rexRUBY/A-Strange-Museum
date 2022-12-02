@@ -12,9 +12,9 @@ public class DialogBox extends JLabel implements Tile, Runnable {
     protected File file = new File("audios/small_explosion.wav");
     protected Clip clip = AudioSystem.getClip();
     public static Vector<String> dialogVec = new Vector<>();
-    public static Iterator<String> it = dialogVec.iterator();
+    //public static Iterator<String> it = dialogVec.iterator();
 
-    Thread thread = new Thread(this);
+    public Thread thread = new Thread(this);
     DialogBox dialogBox;
 
     public DialogBox() throws LineUnavailableException, UnsupportedAudioFileException, IOException {
@@ -45,6 +45,7 @@ public class DialogBox extends JLabel implements Tile, Runnable {
         this.dialogBox = panel;
     }
 
+    @Override
     public void run() {
         Font font = new Font("Sam3KRFont", Font.PLAIN, 23);
         try {
@@ -72,18 +73,16 @@ public class DialogBox extends JLabel implements Tile, Runnable {
                             emptyPanel.repaint();
                             player.repaint();
                         }
-//                        dialogBox.add(label[j]);
-//                        repaint();
                         initSleep(30);
                     }
                     initSleep(180);
-                    }
+                }
                 removeAll();
                 initSleep(2000);
-                }
+            }
             initSleep(2000);
             dialogBox.setVisible(false);
-            } catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

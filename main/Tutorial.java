@@ -6,12 +6,13 @@ import java.io.*;
 import javax.sound.sampled.*;
 
 public class Tutorial implements Tile{
-    static String[][] dialog = {{"아니..", "분명 이곳에서 모이기로 했는데...", "왜 아무도 없지..?"},
-            {"내가 역사 박물관에 온 이유는 단순하다. ", "팀프로젝트 자료조사 차 방문했지만", "어쩐지 아무도 없어 의아하던 찰나..!"},
-            {"덜컹..."},
-            {"쾅"},
-            {"어 저기서 빛나는건 뭐지?"},
-            {"가까이 가보자!!!"}
+    static String[][] dialog = {{"응?", "분명 여기가 맞는데", "왜 아무도 없지?"},
+            {"조별과제 때문에", "역사 박물관에서 모이기로 했는데", "아무도 오지 않다니…"},
+            {"괘씸하지만 어쩔 수 없지", "우선 혼자라도 둘러보자."},
+            {"덜컹", "응? 무슨 소리지?"},
+            {"쾅", "으악! 대체 뭐야?", "어두워서 앞도 잘 보이지 않아.."},
+            {"저기 빛나는 것은 뭐지?"},
+            {"가까이 가보자!"}
     };
 
     public static JFrame tutorialFrame = new JFrame();
@@ -30,9 +31,31 @@ public class Tutorial implements Tile{
         }
     }
 
-    public static Player player = new Player();
+    public static Player player;
+
+    static {
+        try {
+            player = new Player();
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected static Clip clip;
+
+    static {
+        try {
+            clip = AudioSystem.getClip();
+        } catch(LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     protected File file = new File("audios/strange_museum_tutorial.wav");
-    protected Clip clip = AudioSystem.getClip();
     protected MapPanel map = new MapPanel();
     public Tutorial() throws LineUnavailableException, IOException, UnsupportedAudioFileException
     {
@@ -47,7 +70,7 @@ public class Tutorial implements Tile{
         clip.start();
         clip.loop(5);
 
-        //맵
+        //맵, 다이얼로그
         tutorialFrame.setContentPane(map);
         map.add(dialogBox);
         dialogBox.setDialog(dialogBox, dialog[0], dialog[0].length);
@@ -86,9 +109,8 @@ class MapPanel extends JPanel implements Tile {
 }
 
 class EmptyPanel extends JPanel implements Tile {
-    public ImageIcon museumMap_empty = new ImageIcon("images/strange_museum_empty.jpg");
+    public ImageIcon museumMap_empty = new ImageIcon("images/tutorial_map_empty.png");
     public Image emptyImg = museumMap_empty.getImage();
-
     public EmptyPanel() {
         setLayout(null);
         setBounds(0,0,screenWidth,screenHeight);

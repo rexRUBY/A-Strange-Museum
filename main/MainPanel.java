@@ -80,7 +80,7 @@ public class MainPanel implements Tile {
     }
 
     class ImagePanel extends JPanel implements Runnable {
-        private ImageIcon museum = new ImageIcon("images/museum.png");
+        private ImageIcon museum = new ImageIcon("images/museum2.png");
         private Image img = museum.getImage();
         Thread th = new Thread(this);
 
@@ -91,7 +91,6 @@ public class MainPanel implements Tile {
 
         public ImagePanel() {
             setLayout(null);
-            //Thread th = new Thread(this);
             th.start();
         }
 
