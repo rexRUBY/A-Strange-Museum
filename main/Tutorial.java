@@ -45,7 +45,7 @@ public class Tutorial implements Tile{
         }
     }
 
-    protected static Clip clip;
+    public static Clip clip;
 
     static {
         try {

@@ -28,7 +28,20 @@ public class EmptyFrame implements Tile{
         }
     }
 
-    public static Player player = new Player();
+    public static Player player;
+
+    static {
+        try {
+            player = new Player();
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     protected File file = new File("audios/strange_museum_tutorial.wav");
     protected Clip clip = AudioSystem.getClip();
 
