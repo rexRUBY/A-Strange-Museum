@@ -107,8 +107,8 @@ class Moving extends JPanel implements Tile, ActionListener {
         setLayout(null);
         setBackground(Color.BLACK);
         setBounds(0, 0, screenWidth, screenHeight);
-//        kkorazi.setBounds(15,160,310,200);
-//        add(kkorazi);
+        kkorazi.setBounds(15,160,297,200);
+        add(kkorazi);
         text = "팀장                          한 솔\n\n"
                 +"게임 기획                     신승하\n\n"
                 +"메인게임 개발                 김주희\n"
@@ -126,16 +126,17 @@ class Moving extends JPanel implements Tile, ActionListener {
                 +"조연                         병 졸\n"
                 +"                             충무공\n"
                 +"                             송 강\n\n\n\n"
-                +"지도교수               최보금 교수님\n\n"
+                +"지도교수              최보금 교수님\n\n"
                 +"테스터                김주희 어머니\n"
                 +"                      박예서 아버지\n"
                 +"                      한  솔 여동생\n\n"
-                +"도움주신 분           송선미 김미주\n"
+                +"도움주신 분            송선미 김미주\n"
                 +"                      안태환 선배님\n"
                 +"                      유튜버 라이쇼\n"
                 +"                      정세희 조교님\n"
                 +"                      정승우 조교님\n\n"
-                +"징소 제공              공학관 812호\n"
+                +"징소 제공             공학관 812호\n"
+                +"                      한솔 집\n"
                 +"                      본관 스터디룸\n\n"
                 +"팀명 후보               보금자리\n\n"
                 +"좌우명                  불광불급\n\n\n\n\n\n"
@@ -151,7 +152,7 @@ class Moving extends JPanel implements Tile, ActionListener {
         g2d.setColor(Color.WHITE);
         int y = textY;
         for(String line : text.split("\n"))
-            g2d.drawString(line,screenWidth/2-180,y+=28);
+            g2d.drawString(line,340,y+=28);
     }
 
     @Override

@@ -13,8 +13,9 @@ import static main.DialogBox.dialogVec;
 
 public class EndingIntro implements Tile, Runnable {
     EndingPlayer endingPlayer = new EndingPlayer();
-    static String[][] dialog = {{"(시끌시끌)"}, {"어... 뭐지? 이 오묘한 느낌은?","사람들이 많아진걸 보니","현실 세상으로 돌아온것같아."},
-            {"큰일났다!", "어서 자료조사를 해야하는데...", "다른 전시관도 둘러봐야겠다."}
+    static String[][] dialog = {{"끄, 끝인가?","겨우 돌아왔다..."}, {"전쟁터는 아니었지만","다른 의미로 죽을 뻔 했어"},
+            {"아 참, 그러고 보니", "여기 조별 과제를 하러 왔었지?", "말도 안되는 일에 이리 저리 휩쓸리다 보니", "정작 중요한 걸 까먹고 있었어..."},
+            {"그럼 조사를 하러 가 볼까?", "마지막으로 한 번 더 가자 임복환!!"}
     };
 
     public static JFrame endingFrame = new JFrame();
@@ -43,7 +44,9 @@ public class EndingIntro implements Tile, Runnable {
         }
     }
 
-    protected File file = new File("audios/strange_museum_tutorial.wav");
+    File a = new File("audios/after_round3_mix.wav");
+    AudioInputStream b = AudioSystem.getAudioInputStream(a);
+    Clip c = AudioSystem.getClip();
     protected Map map = new Map();
     public EndingIntro() throws LineUnavailableException, IOException, UnsupportedAudioFileException
     {
@@ -51,6 +54,9 @@ public class EndingIntro implements Tile, Runnable {
         endingFrame.setResizable(false); // 창크기 변경X
         endingFrame.setTitle("기묘한 박물관");
         endingFrame.setLayout(null);
+
+        c.open(b);
+        c.start();
 
         //맵, 다이얼로그
         endingFrame.setContentPane(map);
@@ -101,6 +107,7 @@ public class EndingIntro implements Tile, Runnable {
                 dialogBox.initSleep(2000);
             }
             dialogBox.initSleep(2000);
+            clip.stop();
             dialogBox.setVisible(false);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -109,7 +116,7 @@ public class EndingIntro implements Tile, Runnable {
 }
 
 class Map extends JPanel implements Tile, Runnable {
-    private ImageIcon endingMap = new ImageIcon("images/ending_intro.png");
+    private ImageIcon endingMap = new ImageIcon("images/tutorial_map.png");
     private Image endingImg = endingMap.getImage();
     public Thread th = new Thread(this);
     int alpha = 0;

@@ -56,12 +56,31 @@ public class Player extends JLabel implements Tile, Moveable {
         boolean two = false;
         boolean three = false;
 
+        System.out.println(x + " " + y);
         if ((x > 510 && x < 550) && (y > 157 && y < 176)) {
             one = true;
             if (one == true) {
                 one =false;
                 Tutorial.clip.stop();
-                Intro.getInstance();
+                stageOne.Intro.getInstance();
+                tutorialFrame.setVisible(false);
+            }
+        }
+        if ((x > 90 && x < 190) && (y > 155 && y < 159)) {
+            two = true;
+            if (two == true) {
+                two =false;
+                Tutorial.clip.stop();
+                stageTwo.Intro.getInstance();
+                tutorialFrame.setVisible(false);
+            }
+        }
+        if ((x > 605 && x < 640) && (y > 295 && y < 300)) {
+            two = true;
+            if (two == true) {
+                two =false;
+                Tutorial.clip.stop();
+                stageTwo.Intro.getInstance();
                 tutorialFrame.setVisible(false);
             }
         }

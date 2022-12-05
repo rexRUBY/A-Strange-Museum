@@ -8,12 +8,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 import main.Moveable;
-import main.Player;
 import main.Tile;
-import main.Tutorial;
-import stageOne.Intro;
-
-import static main.Tutorial.tutorialFrame;
 
 public class EndingPlayer extends JLabel implements Tile, Moveable {
     private int x, y; //좌표
@@ -57,7 +52,8 @@ public class EndingPlayer extends JLabel implements Tile, Moveable {
         int y = getY();
         boolean ending = false;
 
-        if ((x > 510 && x < 550) && (y > 157 && y < 176)) {
+
+        if ((x > 715 && x < 730) && (y > 160  && y < 250)) {
             ending = true;
             if (ending == true) {
                 ending =false;
