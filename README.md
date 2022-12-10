@@ -11,19 +11,18 @@
 스테이지1
 
 ![s1_intro](https://user-images.githubusercontent.com/87340601/206854775-6bf4ae4b-e764-4756-82b2-1ced8ab6e856.gif)
-![s1](https://user-images.githubusercontent.com/87340601/206854973-715fcf39-2baf-421e-b343-46348155e4e8.png)
-
+<img width="50%" src="https://user-images.githubusercontent.com/87340601/206854973-715fcf39-2baf-421e-b343-46348155e4e8.png"/>
 
 스테이지2 
 
 ![s2_intro](https://user-images.githubusercontent.com/87340601/206854781-19c90e83-e244-4862-b9af-75954f31c7b4.gif)
-![s2](https://user-images.githubusercontent.com/87340601/206854977-a35f857b-8d8b-46d0-b981-9946f945a09d.png)
+<img width="50%" src="https://user-images.githubusercontent.com/87340601/206854977-a35f857b-8d8b-46d0-b981-9946f945a09d.png"/>
 
 
 스테이지3 
 
 ![s3_intro](https://user-images.githubusercontent.com/87340601/206854786-8f1cb46e-35d3-4cbd-8b5a-77e6cfbccdf8.gif)
-![s3](https://user-images.githubusercontent.com/87340601/206854975-5177946e-39ba-4f9d-b47d-17b0fd32ecf5.png)
+<img width="50%" src="https://user-images.githubusercontent.com/87340601/206854975-5177946e-39ba-4f9d-b47d-17b0fd32ecf5.png"/>
 
 
 엔딩크레딧
