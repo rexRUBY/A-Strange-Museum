@@ -3,19 +3,19 @@
 
 
 ### < 폴더 구조 >
-project-root
-|-- src
-|   |-- YourSourceCode.java
-|-- audios
-|   |-- strange_museum_op.wav
-               .
-               .
-               .
-|-- images
-|   |-- back.png
-               .
-               .
-               .
+project-root<br>
+|-- src<br>
+|   |-- YourSourceCode.java<br>
+|-- audios<br>
+|   |-- strange_museum_op.wav<br>
+               .<br>
+               .<br>
+               .<br>
+|-- images<br>
+|   |-- back.png<br>
+               .<br>
+               .<br>
+               .<br>
 
 
 
