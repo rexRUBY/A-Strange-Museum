@@ -1,34 +1,50 @@
 # A-Strange-Museum
-자바 swing을 이용한 비단길 팀의 '기묘한 박물관' 게임입니다 ~ 
+## 자바 swing을 이용한 비단길 팀의 '기묘한 박물관' 게임입니다 ~ 
+
+
+### < 폴더 구조 >
+project-root
+|-- src
+|   |-- YourSourceCode.java
+|-- audios
+|   |-- strange_museum_op.wav
+               .
+               .
+               .
+|-- images
+|   |-- back.png
+               .
+               .
+               .
 
 
 
-튜토리얼
+### 튜토리얼
 
 ![tutorial](https://user-images.githubusercontent.com/87340601/206854769-ae6de487-1386-4f01-bb57-8256fb0d27e2.gif)
 
 
-스테이지1
+### 스테이지1
 
 ![s1_intro](https://user-images.githubusercontent.com/87340601/206854775-6bf4ae4b-e764-4756-82b2-1ced8ab6e856.gif)
 
 <img width="40%" src="https://user-images.githubusercontent.com/87340601/206854973-715fcf39-2baf-421e-b343-46348155e4e8.png"/>
 
-스테이지2 
+### 스테이지2 
 
 ![s2_intro](https://user-images.githubusercontent.com/87340601/206854781-19c90e83-e244-4862-b9af-75954f31c7b4.gif)
 
 <img width="40%" src="https://user-images.githubusercontent.com/87340601/206854977-a35f857b-8d8b-46d0-b981-9946f945a09d.png"/>
 
 
-스테이지3 
+### 스테이지3 
 
 ![s3_intro](https://user-images.githubusercontent.com/87340601/206854786-8f1cb46e-35d3-4cbd-8b5a-77e6cfbccdf8.gif)
 
 <img width="40%" src="https://user-images.githubusercontent.com/87340601/206854975-5177946e-39ba-4f9d-b47d-17b0fd32ecf5.png"/>
 
 
-엔딩크레딧
+### 엔딩크레딧
 
 ![ending_credit](https://user-images.githubusercontent.com/87340601/206854789-5b520479-537d-4b2e-b214-c2c0339ab5f3.gif)
 
