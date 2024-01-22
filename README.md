@@ -1,7 +1,8 @@
 # A-Strange-Museum
 ## 자바 swing을 이용한 비단길 팀의 '기묘한 박물관' 게임입니다 ~ 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/NW6Ny8MX4kE?si=Jtn3Igc-2LDPMhm3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[기묘한박물관](https://www.youtube.com/embed/NW6Ny8MX4kE?si=Jtn3Igc-2LDPMhm3)
+
 
 ### < 폴더 구조 >
 project-root<br>
